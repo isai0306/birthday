@@ -118,7 +118,44 @@ That's why you'll always be my Angel. 👼❤️`,
   animation: "golden-aura"
 };
 
-type Phase = "landing" | "auth" | "intro" | "garden" | "cards" | "cake" | "final";
+type Phase = "landing" | "auth" | "intro" | "garden" | "cards" | "cake" | "final" | "comrade";
+
+const PAGE = "relative z-20 flex min-h-[100svh] min-h-[100dvh] w-full flex-col items-center justify-center page-shell py-8 text-center sm:py-12";
+
+function GoldButton({
+  children,
+  onClick,
+  disabled,
+  className = "",
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`min-h-[48px] rounded-full px-8 py-3 font-display text-base font-semibold text-black shadow-[0_0_32px_rgba(212,175,55,0.35)] transition-transform hover:scale-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 sm:px-10 sm:text-lg ${className}`}
+      style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function useDodgeNo() {
+  const [noPos, setNoPos] = useState({ x: 0, y: 0 });
+  const dodge = () => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+    const x = (Math.random() - 0.5) * (isMobile ? 140 : 240);
+    const y = (Math.random() - 0.5) * (isMobile ? 120 : 200);
+    setNoPos({ x, y });
+  };
+  return { noPos, dodge };
+}
 
 function FramedImage({
   src,
@@ -392,7 +429,7 @@ function Landing({ onContinue }: { onContinue: () => void }) {
   return (
     <motion.section
       key="landing"
-      className="relative z-10 flex min-h-[100svh] flex-col items-center justify-between overflow-hidden bg-black px-6 pb-12 pt-16"
+      className="relative z-10 flex min-h-[100svh] min-h-[100dvh] flex-col items-center justify-between overflow-hidden bg-black page-shell pb-10 pt-12 sm:pb-12 sm:pt-16"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -412,7 +449,7 @@ function Landing({ onContinue }: { onContinue: () => void }) {
         <p className="font-display text-sm uppercase tracking-[0.35em] text-white/50">
           A birthday surprise
         </p>
-        <h1 className="mt-4 font-display text-5xl font-semibold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] sm:text-6xl md:text-7xl">
+        <h1 className="mt-3 font-display text-4xl font-semibold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] sm:mt-4 sm:text-5xl md:text-6xl">
           hey Dear..
         </h1>
       </motion.div>
@@ -423,13 +460,7 @@ function Landing({ onContinue }: { onContinue: () => void }) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 1, duration: 0.8 }}
       >
-        <button
-          onClick={onContinue}
-          className="rounded-full px-10 py-3.5 font-display text-lg font-semibold text-black shadow-[0_0_40px_rgba(212,175,55,0.35)] transition-transform hover:scale-105 active:scale-[0.98]"
-          style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
-        >
-          Continue ✨
-        </button>
+        <GoldButton onClick={onContinue}>Continue ✨</GoldButton>
       </motion.div>
     </motion.section>
   );
@@ -464,16 +495,16 @@ function Auth({ onSuccess }: { onSuccess: () => void }) {
   };
 
   return (
-    <div className="relative min-h-[100svh] w-full flex items-center justify-center bg-black p-4 md:p-8">
-      <div className="relative z-10 w-full max-w-5xl rounded-3xl overflow-hidden border border-white/10 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.8)] flex flex-col md:flex-row min-h-[520px]">
+    <div className="relative min-h-[100svh] min-h-[100dvh] w-full flex items-center justify-center bg-black page-shell p-3 sm:p-6 md:p-8">
+      <div className="relative z-10 w-full max-w-5xl rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.8)] flex flex-col md:flex-row md:min-h-[520px]">
         
         {/* Left Side: Login image beside card */}
-        <div className="w-full md:w-[45%] min-h-[300px] md:min-h-0 md:self-stretch overflow-hidden bg-black border-b md:border-b-0 md:border-r border-white/10">
-          <FramedImage src={loginAngel} alt="Dear Angel" className="min-h-[300px] md:min-h-full" />
+        <div className="w-full md:w-[45%] min-h-[220px] sm:min-h-[280px] md:min-h-0 md:self-stretch overflow-hidden bg-black border-b md:border-b-0 md:border-r border-white/10">
+          <FramedImage src={loginAngel} alt="Dear Angel" className="min-h-[220px] sm:min-h-[280px] md:min-h-full" />
         </div>
 
         {/* Right Side: Auth Card */}
-        <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center items-center relative bg-[#0a0a0a] border-l border-white/10">
+        <div className="w-full md:w-[55%] p-5 sm:p-8 md:p-12 flex flex-col justify-center items-center relative bg-[#0a0a0a] md:border-l border-white/10">
           <AnimatePresence mode="wait">
             {!isRegistering ? (
               <motion.div
@@ -683,18 +714,12 @@ function Auth({ onSuccess }: { onSuccess: () => void }) {
 
 /* ---------- Intro: Hey {name} + Yes/No (No runs away) ---------- */
 function Intro({ onYes }: { onYes: () => void }) {
-  const [noPos, setNoPos] = useState({ x: 0, y: 0 });
-
-  const dodge = () => {
-    const x = (Math.random() - 0.5) * 320;
-    const y = (Math.random() - 0.5) * 280;
-    setNoPos({ x, y });
-  };
+  const { noPos, dodge } = useDodgeNo();
 
   return (
     <motion.section
       key="intro"
-      className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 text-center"
+      className={`${PAGE} px-4`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
@@ -717,7 +742,7 @@ function Intro({ onYes }: { onYes: () => void }) {
       </div>
 
       <motion.h1
-        className="font-display text-5xl font-semibold text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-6xl md:text-7xl"
+        className="font-display text-3xl font-semibold text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-5xl md:text-6xl"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3, duration: 1 }}
@@ -735,25 +760,19 @@ function Intro({ onYes }: { onYes: () => void }) {
       </motion.p>
 
       <motion.div
-        className="relative mt-10 flex items-center gap-5"
+        className="relative mt-8 flex w-full max-w-sm flex-col items-center gap-4 sm:mt-10 sm:flex-row sm:justify-center sm:gap-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.8 }}
       >
-        <button
-          onClick={onYes}
-          className="rounded-full px-8 py-3 font-display text-lg text-black shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-transform hover:scale-105"
-          style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
-        >
-          Yes 💕
-        </button>
+        <GoldButton onClick={onYes} className="w-full sm:w-auto">Yes 💕</GoldButton>
         <motion.button
-          onMouseEnter={dodge}
-          onTouchStart={dodge}
+          onPointerEnter={dodge}
+          onTouchStart={(e) => { e.preventDefault(); dodge(); }}
           onClick={dodge}
           animate={{ x: noPos.x, y: noPos.y }}
           transition={{ type: "spring", stiffness: 260, damping: 18 }}
-          className="rounded-full bg-white/10 px-8 py-3 font-display text-lg text-white/80 backdrop-blur border border-white/15 transition-colors hover:bg-white/15"
+          className="min-h-[48px] w-full rounded-full bg-white/10 px-8 py-3 font-display text-base text-white/80 backdrop-blur border border-white/15 sm:w-auto sm:text-lg"
         >
           No 💔
         </motion.button>
@@ -766,12 +785,6 @@ function Intro({ onYes }: { onYes: () => void }) {
 function Cards({ onDone }: { onDone: () => void }) {
   const [currentCard, setCurrentCard] = useState<1 | 2>(1);
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    // #region agent log
-    fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:Cards',message:'Cards phase mounted',data:{currentCard,isOpen},hypothesisId:'H3',timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
-  }, []);
 
   const cardData = {
     1: {
@@ -798,7 +811,7 @@ function Cards({ onDone }: { onDone: () => void }) {
   return (
     <motion.section
       key="cards"
-      className="relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center"
+      className={`${PAGE} px-4`}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -24 }}
@@ -813,7 +826,7 @@ function Cards({ onDone }: { onDone: () => void }) {
         </p>
       </div>
 
-      <div className="relative z-20 flex w-full max-w-[340px] items-center justify-center">
+      <div className="relative z-20 flex w-full max-w-[min(340px,100%)] items-center justify-center">
         <AnimatePresence mode="wait">
           {!isOpen ? (
             <motion.div
@@ -934,9 +947,6 @@ function Garden({ onDone }: GardenProps) {
   useEffect(() => {
     if (discovered.size >= 8 && !showGolden) {
       setShowGolden(true);
-      // #region agent log
-      fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:Garden.showGolden',message:'golden butterfly unlocked',data:{discoveredSize:discovered.size,discoveredIds:[...discovered]},hypothesisId:'H1',timestamp:Date.now()})}).catch(()=>{});
-      // #endregion
     }
   }, [discovered, showGolden]);
 
@@ -955,9 +965,6 @@ function Garden({ onDone }: GardenProps) {
     if (activeB) {
       if (activeB.id === 9) {
         setActiveB(null);
-        // #region agent log
-        fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:Garden.handleCloseCard',message:'golden butterfly closed, calling onDone',data:{butterflyId:activeB.id},hypothesisId:'H2',timestamp:Date.now()})}).catch(()=>{});
-        // #endregion
         onDone();
       } else {
         setDiscovered((prev) => {
@@ -973,7 +980,7 @@ function Garden({ onDone }: GardenProps) {
   return (
     <motion.section
       key="garden"
-      className="relative z-10 flex min-h-[100svh] flex-col justify-between px-6 pt-12 pb-10 text-center overflow-hidden"
+      className="relative z-10 flex min-h-[100svh] min-h-[100dvh] flex-col justify-between page-shell pt-10 pb-8 text-center overflow-hidden sm:pt-12 sm:pb-10"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -982,7 +989,7 @@ function Garden({ onDone }: GardenProps) {
       {/* Title */}
       <div className="z-10 max-w-xl mx-auto">
         <motion.h2 
-          className="font-display text-2xl md:text-4xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] leading-tight"
+          className="font-display text-xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] leading-tight sm:text-3xl md:text-4xl"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -1056,8 +1063,10 @@ function Garden({ onDone }: GardenProps) {
               onClick={() => openButterfly(GOLDEN_BUTTERFLY)}
             >
               <div className="absolute h-32 w-32 rounded-full bg-amber-400/25 blur-2xl animate-pulse" />
-              <GlowButterfly size={100} glow="#ffd700" />
-              <span className="mt-3 font-display text-sm font-bold text-amber-200 tracking-wider bg-black/70 px-4 py-2 rounded-full border border-amber-400/50 shadow-[0_0_30px_rgba(212,175,55,0.4)]">
+              <div className="scale-90 sm:scale-100">
+                <GlowButterfly size={88} glow="#ffd700" />
+              </div>
+              <span className="mt-2 sm:mt-3 font-display text-xs sm:text-sm font-bold text-amber-200 tracking-wider bg-black/70 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-amber-400/50 shadow-[0_0_30px_rgba(212,175,55,0.4)]">
                 TAP GOLDEN BUTTERFLY 🌹
               </span>
             </motion.button>
@@ -1071,9 +1080,9 @@ function Garden({ onDone }: GardenProps) {
       {/* Card Popup Modal */}
       <AnimatePresence>
         {activeB && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/70 backdrop-blur-sm pointer-events-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm pointer-events-auto">
             <motion.div
-              className={`relative w-full max-w-[340px] overflow-hidden rounded-3xl border border-white/15 bg-[#111] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl text-center flex flex-col items-center justify-between ${
+              className={`relative w-full max-w-[min(340px,100%)] max-h-[88dvh] overflow-y-auto rounded-2xl sm:rounded-3xl border border-white/15 bg-[#111] p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl text-center flex flex-col items-center justify-between ${
                 activeB.animation === "notification" 
                   ? "border-amber-300/30 bg-[#1a1a1a] text-left shadow-[0_15px_30px_rgba(0,0,0,0.5)]" 
                   : ""
@@ -1151,18 +1160,78 @@ function Garden({ onDone }: GardenProps) {
   );
 }
 
+/* ---------- Realistic cake visual ---------- */
+function CakeVisual({ litCount, candleCount }: { litCount: number; candleCount: number }) {
+  return (
+    <div className="relative flex flex-col items-center select-none">
+      {/* Candles row */}
+      <div className="relative z-10 mb-0 flex items-end justify-center gap-2 sm:gap-3">
+        {Array.from({ length: candleCount }).map((_, i) => (
+          <div key={i} className="flex flex-col items-center">
+            <AnimatePresence>
+              {i < litCount && (
+                <motion.div
+                  className="relative mb-0.5 h-5 w-3 sm:h-6 sm:w-3.5"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0, y: -12 }}
+                  transition={{ exit: { duration: 0.35 } }}
+                >
+                  <div className="absolute bottom-0 left-1/2 h-full w-full -translate-x-1/2 rounded-full bg-gradient-to-t from-orange-500 via-yellow-300 to-yellow-100 animate-flame shadow-[0_0_12px_#fbbf24]" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <div
+              className="w-1 rounded-full bg-gradient-to-b from-amber-50 to-amber-200 shadow-sm sm:w-1.5"
+              style={{ height: i % 2 === 0 ? 28 : 22 }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Cherry */}
+      <div className="relative z-10 -mb-1 h-4 w-4 rounded-full bg-red-500 shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.3)] sm:h-5 sm:w-5">
+        <div className="absolute -top-2 left-1/2 h-3 w-0.5 -translate-x-1/2 rotate-12 rounded-full bg-green-600" />
+      </div>
+
+      {/* Top tier */}
+      <div className="relative z-[1] -mt-1 w-[7.5rem] sm:w-36">
+        <div className="h-10 rounded-t-[2rem] bg-gradient-to-b from-pink-100 via-pink-200 to-pink-400 shadow-inner sm:h-12" />
+        <div className="absolute -bottom-1 left-2 right-2 flex justify-between px-1">
+          {[0, 1, 2, 3, 4].map((d) => (
+            <div key={d} className="h-3 w-2 rounded-b-full bg-pink-200/90 sm:h-4 sm:w-2.5" />
+          ))}
+        </div>
+      </div>
+
+      {/* Middle tier */}
+      <div className="relative -mt-1 w-[9rem] sm:w-44">
+        <div className="h-12 rounded-t-[1.5rem] bg-gradient-to-b from-amber-50 via-amber-100 to-amber-200 shadow-md sm:h-14" />
+        <div className="absolute inset-x-3 top-2 h-1 rounded-full bg-white/50" />
+        <div className="absolute -bottom-1 left-3 right-3 flex justify-between">
+          {[0, 1, 2, 3, 4, 5].map((d) => (
+            <div key={d} className="h-3.5 w-2.5 rounded-b-full bg-amber-100 sm:h-4" />
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom tier + plate */}
+      <div className="relative -mt-1 w-[11rem] sm:w-52">
+        <div className="flex h-14 items-center justify-center rounded-b-[1.25rem] bg-gradient-to-b from-amber-200 via-amber-300 to-amber-500 shadow-xl sm:h-16">
+          <span className="font-display text-sm font-bold text-amber-950 sm:text-base">Dear {NAME} 🎂</span>
+        </div>
+        <div className="mx-auto mt-1 h-3 w-[115%] -translate-x-[7.5%] rounded-[50%] bg-white/15 shadow-[0_4px_20px_rgba(255,255,255,0.1)]" />
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Birthday Cake: blow out candles ---------- */
 function BirthdayCake({ onDone }: { onDone: () => void }) {
   const candleCount = 5;
   const [litCount, setLitCount] = useState(candleCount);
   const [blowing, setBlowing] = useState(false);
   const [wishMade, setWishMade] = useState(false);
-
-  useEffect(() => {
-    // #region agent log
-    fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:BirthdayCake',message:'Cake phase mounted',data:{litCount},hypothesisId:'H4',timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
-  }, []);
 
   const blowCandles = () => {
     if (blowing || litCount === 0) return;
@@ -1175,12 +1244,7 @@ function BirthdayCake({ onDone }: { onDone: () => void }) {
       setLitCount(remaining);
       if (remaining <= 0) {
         clearInterval(interval);
-        setTimeout(() => {
-          // #region agent log
-          fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:BirthdayCake',message:'all candles blown, going to final',data:{},hypothesisId:'H4',timestamp:Date.now()})}).catch(()=>{});
-          // #endregion
-          onDone();
-        }, 1800);
+        setTimeout(onDone, 2000);
       }
     }, 350);
   };
@@ -1188,81 +1252,37 @@ function BirthdayCake({ onDone }: { onDone: () => void }) {
   return (
     <motion.section
       key="cake"
-      className="relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center"
+      className={`${PAGE} px-4`}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -24 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="mb-8 max-w-lg">
-        <h2 className="font-display text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-4xl">
+      <div className="mb-6 max-w-lg sm:mb-8">
+        <h2 className="font-display text-2xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-4xl">
           Happy Birthday! 🎂
         </h2>
-        <p className="mt-3 font-display text-base italic text-white/70 sm:text-lg">
+        <p className="mt-2 font-display text-sm italic text-white/70 sm:mt-3 sm:text-lg">
           {wishMade
             ? "Make a wish... the candles are going out! ✨"
             : "Make a wish, then blow out the candles 🌬️"}
         </p>
       </div>
 
-      {/* Cake */}
-      <div className="relative mb-10 flex flex-col items-center">
-        {/* Candles */}
-        <div className="mb-1 flex items-end justify-center gap-3 sm:gap-4">
-          {Array.from({ length: candleCount }).map((_, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <AnimatePresence>
-                {i < litCount && (
-                  <motion.div
-                    className="mb-0.5 text-xl sm:text-2xl"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{
-                      scale: [1, 1.15, 1],
-                      opacity: 1,
-                      y: [0, -2, 0],
-                    }}
-                    exit={{ scale: 0, opacity: 0, y: -20 }}
-                    transition={{
-                      scale: { duration: 0.6, repeat: Infinity, ease: "easeInOut" },
-                      y: { duration: 0.5, repeat: Infinity, ease: "easeInOut" },
-                      exit: { duration: 0.4 },
-                    }}
-                  >
-                    🔥
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              <div
-                className="w-1.5 rounded-full bg-gradient-to-b from-amber-100 to-amber-300 sm:w-2"
-                style={{ height: i % 2 === 0 ? 36 : 28 }}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="relative mb-8 sm:mb-10">
+        <CakeVisual litCount={litCount} candleCount={candleCount} />
 
-        {/* Cake layers */}
-        <div className="relative">
-          <div className="h-8 w-44 rounded-t-2xl bg-gradient-to-b from-rose-300 to-rose-500 shadow-lg sm:w-52" />
-          <div className="h-10 w-52 rounded-t-xl bg-gradient-to-b from-amber-200 to-amber-400 shadow-xl sm:w-60" />
-          <div className="flex h-12 w-60 items-center justify-center rounded-b-2xl bg-gradient-to-b from-amber-400 to-amber-600 shadow-2xl sm:w-72">
-            <span className="font-display text-lg font-bold text-amber-950 sm:text-xl">
-              Dear Reena 🎂
-            </span>
-          </div>
-        </div>
-
-        {/* Confetti after blow */}
         <AnimatePresence>
           {litCount === 0 && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               {Array.from({ length: 20 }).map((_, i) => (
                 <motion.span
                   key={i}
-                  className="absolute text-lg"
+                  className="absolute text-base sm:text-lg"
                   initial={{ x: 0, y: 0, opacity: 1, scale: 0 }}
                   animate={{
-                    x: (Math.random() - 0.5) * 300,
-                    y: (Math.random() - 0.5) * 300,
+                    x: (Math.random() - 0.5) * 260,
+                    y: (Math.random() - 0.5) * 260,
                     opacity: [1, 0],
                     scale: [0, 1.5],
                     rotate: Math.random() * 360,
@@ -1278,20 +1298,14 @@ function BirthdayCake({ onDone }: { onDone: () => void }) {
       </div>
 
       {litCount > 0 && (
-        <motion.button
-          onClick={blowCandles}
-          disabled={blowing}
-          className="rounded-full px-10 py-3.5 font-display text-lg font-semibold text-black shadow-[0_0_40px_rgba(212,175,55,0.35)] transition-transform hover:scale-105 active:scale-[0.98] disabled:opacity-60"
-          style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <GoldButton onClick={blowCandles} disabled={blowing}>
           {blowing ? "Blowing... 🌬️" : "Blow the Candles 🌬️"}
-        </motion.button>
+        </GoldButton>
       )}
 
       {litCount === 0 && (
         <motion.p
-          className="font-display text-2xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+          className="font-display text-xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-2xl"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
         >
@@ -1303,11 +1317,17 @@ function BirthdayCake({ onDone }: { onDone: () => void }) {
 }
 
 /* ---------- Final: heart burst + closing lines ---------- */
-function Final() {
+function Final({ onDone }: { onDone: () => void }) {
   const [lineIdx, setLineIdx] = useState(0);
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     if (lineIdx < FINAL_LINES.length - 1) {
       const t = setTimeout(() => setLineIdx(lineIdx + 1), 1800);
+      return () => clearTimeout(t);
+    }
+    if (lineIdx === FINAL_LINES.length - 1) {
+      const t = setTimeout(() => setReady(true), 1200);
       return () => clearTimeout(t);
     }
   }, [lineIdx]);
@@ -1317,20 +1337,19 @@ function Final() {
   return (
     <motion.section
       key="final"
-      className="relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center"
+      className={`${PAGE} px-4`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.9 }}
     >
-      {/* heart burst */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
         {hearts.map((_, i) => {
           const angle = (i / hearts.length) * Math.PI * 2;
-          const r = 260 + Math.random() * 120;
+          const r = 160 + Math.random() * 80;
           return (
             <motion.span
               key={i}
-              className="absolute text-2xl"
+              className="absolute text-lg sm:text-2xl"
               initial={{ x: 0, y: 0, opacity: 0, scale: 0.4 }}
               animate={{ x: Math.cos(angle) * r, y: Math.sin(angle) * r, opacity: [0, 1, 0], scale: [0.4, 1.3, 0.8] }}
               transition={{ duration: 3 + Math.random() * 2, repeat: Infinity, delay: i * 0.06 }}
@@ -1341,14 +1360,14 @@ function Final() {
         })}
       </div>
 
-      <div className="relative max-w-xl space-y-5">
+      <div className="relative max-w-xl space-y-4 sm:space-y-5">
         {FINAL_LINES.slice(0, lineIdx + 1).map((line, i) => (
           <motion.p
             key={i}
             className={
               i === 0
-                ? "font-display text-4xl text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-5xl"
-                : "font-display text-xl italic text-white/80 sm:text-2xl"
+                ? "font-display text-3xl text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-4xl md:text-5xl"
+                : "font-display text-lg italic text-white/80 sm:text-xl md:text-2xl"
             }
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1360,15 +1379,118 @@ function Final() {
 
         {lineIdx === FINAL_LINES.length - 1 && (
           <motion.div
-            className="flex justify-center pt-6"
-            initial={{ scale: 0, rotate: -20, opacity: 0 }}
-            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+            className="flex flex-col items-center gap-6 pt-4 sm:pt-6"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 120, damping: 12, delay: 0.4 }}
           >
-            <GlowButterfly size={110} />
+            <GlowButterfly size={90} />
+            {ready && (
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+                <GoldButton onClick={onDone}>One more thing... 💫</GoldButton>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </div>
+    </motion.section>
+  );
+}
+
+/* ---------- Comrade question (playful ending) ---------- */
+function ComradeAsk() {
+  const { noPos, dodge } = useDodgeNo();
+  const [saidNo, setSaidNo] = useState(false);
+  const [saidYes, setSaidYes] = useState(false);
+
+  const handleNo = () => {
+    setSaidNo(true);
+  };
+
+  const handleYes = () => {
+    if (!saidNo) setSaidYes(true);
+  };
+
+  return (
+    <motion.section
+      key="comrade"
+      className={`${PAGE} px-4`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+    >
+      {!saidYes && !saidNo && (
+        <>
+          <motion.h2
+            className="font-display text-2xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.35)] sm:text-4xl"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            Will you let me be your comrade, dear? 🤝
+          </motion.h2>
+          <motion.p
+            className="mt-4 max-w-sm font-display text-base italic text-white/65 sm:mt-6 sm:text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            Always cheering for you, through every smile and storm...
+          </motion.p>
+
+          <motion.div
+            className="relative mt-10 flex w-full max-w-sm flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            <GoldButton onClick={handleYes} className="w-full sm:w-auto">
+              Yes 💕
+            </GoldButton>
+            <motion.button
+              type="button"
+              onPointerEnter={dodge}
+              onClick={handleNo}
+              animate={{ x: noPos.x, y: noPos.y }}
+              transition={{ type: "spring", stiffness: 280, damping: 18 }}
+              className="min-h-[48px] w-full rounded-full bg-white/10 px-8 py-3 font-display text-base text-white/80 backdrop-blur border border-white/15 sm:w-auto sm:text-lg"
+            >
+              No 💔
+            </motion.button>
+          </motion.div>
+        </>
+      )}
+
+      {saidYes && !saidNo && (
+        <motion.div
+          className="max-w-md space-y-4"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <span className="text-5xl">🤝💖</span>
+          <h2 className="font-display text-2xl font-semibold text-white sm:text-3xl">
+            Always by your side, dear.
+          </h2>
+          <p className="font-display text-lg italic text-white/75 sm:text-xl">
+            But honestly... I'm only your well-wisher only, dear. 🌸
+          </p>
+        </motion.div>
+      )}
+
+      {saidNo && (
+        <motion.div
+          className="max-w-md space-y-4"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <span className="text-5xl">😉🌸</span>
+          <h2 className="font-display text-2xl font-semibold text-white sm:text-3xl">
+            Haha, just joking!
+          </h2>
+          <p className="font-display text-lg italic text-amber-200/90 sm:text-xl">
+            I'm only your well-wisher only, dear. 💫
+          </p>
+        </motion.div>
+      )}
     </motion.section>
   );
 }
@@ -1378,13 +1500,6 @@ function SerenadePage() {
   const [phase, setPhase] = useState<Phase>("landing");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [muted, setMuted] = useState(true);
-
-  const goToPhase = (next: Phase) => {
-    // #region agent log
-    fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:SerenadePage.goToPhase',message:'phase transition',data:{from:phase,to:next},hypothesisId:'H1',timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
-    setPhase(next);
-  };
 
   useEffect(() => {
     // gentle scroll lock per phase
@@ -1403,26 +1518,27 @@ function SerenadePage() {
   };
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-black">
+    <main className="relative min-h-[100svh] min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-black">
       <Sparkles count={30} />
 
       {/* mute toggle */}
       <button
         onClick={toggleMute}
-        className="fixed right-4 top-4 z-50 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10"
+        className="fixed right-3 top-3 z-50 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 sm:right-4 sm:top-4"
         aria-label={muted ? "Unmute music" : "Mute music"}
       >
         {muted ? "🔇" : "🎵"}
       </button>
 
       <AnimatePresence mode="wait">
-        {phase === "landing" && <Landing key="landing" onContinue={() => goToPhase("auth")} />}
-        {phase === "auth" && <Auth key="auth" onSuccess={() => goToPhase("intro")} />}
-        {phase === "intro" && <Intro key="intro" onYes={() => goToPhase("garden")} />}
-        {phase === "garden" && <Garden key="garden" onDone={() => goToPhase("cards")} />}
-        {phase === "cards" && <Cards key="cards" onDone={() => goToPhase("cake")} />}
-        {phase === "cake" && <BirthdayCake key="cake" onDone={() => goToPhase("final")} />}
-        {phase === "final" && <Final key="final" />}
+        {phase === "landing" && <Landing key="landing" onContinue={() => setPhase("auth")} />}
+        {phase === "auth" && <Auth key="auth" onSuccess={() => setPhase("intro")} />}
+        {phase === "intro" && <Intro key="intro" onYes={() => setPhase("garden")} />}
+        {phase === "garden" && <Garden key="garden" onDone={() => setPhase("cards")} />}
+        {phase === "cards" && <Cards key="cards" onDone={() => setPhase("cake")} />}
+        {phase === "cake" && <BirthdayCake key="cake" onDone={() => setPhase("final")} />}
+        {phase === "final" && <Final key="final" onDone={() => setPhase("comrade")} />}
+        {phase === "comrade" && <ComradeAsk key="comrade" />}
       </AnimatePresence>
     </main>
   );

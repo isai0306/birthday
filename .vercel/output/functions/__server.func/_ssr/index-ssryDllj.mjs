@@ -210,6 +210,36 @@ And honestly...
 That's why you'll always be my Angel. 👼❤️`,
   animation: "golden-aura"
 };
+const PAGE = "relative z-20 flex min-h-[100svh] min-h-[100dvh] w-full flex-col items-center justify-center page-shell py-8 text-center sm:py-12";
+function GoldButton({
+  children,
+  onClick,
+  disabled,
+  className = ""
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick, disabled, className: `min-h-[48px] rounded-full px-8 py-3 font-display text-base font-semibold text-black shadow-[0_0_32px_rgba(212,175,55,0.35)] transition-transform hover:scale-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 sm:px-10 sm:text-lg ${className}`, style: {
+    background: "linear-gradient(135deg, #f5e6b8, #d4af37)"
+  }, children });
+}
+function useDodgeNo() {
+  const [noPos, setNoPos] = reactExports.useState({
+    x: 0,
+    y: 0
+  });
+  const dodge = () => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+    const x = (Math.random() - 0.5) * (isMobile ? 140 : 240);
+    const y = (Math.random() - 0.5) * (isMobile ? 120 : 200);
+    setNoPos({
+      x,
+      y
+    });
+  };
+  return {
+    noPos,
+    dodge
+  };
+}
 function FramedImage({
   src,
   alt,
@@ -406,7 +436,7 @@ function Sparkles({
 function Landing({
   onContinue
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-10 flex min-h-[100svh] flex-col items-center justify-between overflow-hidden bg-black px-6 pb-12 pt-16", initial: {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-10 flex min-h-[100svh] min-h-[100dvh] flex-col items-center justify-between overflow-hidden bg-black page-shell pb-10 pt-12 sm:pb-12 sm:pt-16", initial: {
     opacity: 0
   }, animate: {
     opacity: 1
@@ -430,7 +460,7 @@ function Landing({
       duration: 1
     }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-display text-sm uppercase tracking-[0.35em] text-white/50", children: "A birthday surprise" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 font-display text-5xl font-semibold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] sm:text-6xl md:text-7xl", children: "hey Dear.." })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-3 font-display text-4xl font-semibold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] sm:mt-4 sm:text-5xl md:text-6xl", children: "hey Dear.." })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(motion.div, { className: "relative z-10", initial: {
       y: 24,
@@ -441,9 +471,7 @@ function Landing({
     }, transition: {
       delay: 1,
       duration: 0.8
-    }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onContinue, className: "rounded-full px-10 py-3.5 font-display text-lg font-semibold text-black shadow-[0_0_40px_rgba(212,175,55,0.35)] transition-transform hover:scale-105 active:scale-[0.98]", style: {
-      background: "linear-gradient(135deg, #f5e6b8, #d4af37)"
-    }, children: "Continue ✨" }) })
+    }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(GoldButton, { onClick: onContinue, children: "Continue ✨" }) })
   ] }, "landing");
 }
 function Auth({
@@ -471,10 +499,10 @@ function Auth({
       onSuccess();
     }, 3500);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative min-h-[100svh] w-full flex items-center justify-center bg-black p-4 md:p-8", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-10 w-full max-w-5xl rounded-3xl overflow-hidden border border-white/10 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.8)] flex flex-col md:flex-row min-h-[520px]", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full md:w-[45%] min-h-[300px] md:min-h-0 md:self-stretch overflow-hidden bg-black border-b md:border-b-0 md:border-r border-white/10", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FramedImage, { src: loginAngel, alt: "Dear Angel", className: "min-h-[300px] md:min-h-full" }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center items-center relative bg-[#0a0a0a] border-l border-white/10", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { mode: "wait", children: !isRegistering ? /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "w-full max-w-sm flex flex-col gap-6", initial: {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative min-h-[100svh] min-h-[100dvh] w-full flex items-center justify-center bg-black page-shell p-3 sm:p-6 md:p-8", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-10 w-full max-w-5xl rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.8)] flex flex-col md:flex-row md:min-h-[520px]", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full md:w-[45%] min-h-[220px] sm:min-h-[280px] md:min-h-0 md:self-stretch overflow-hidden bg-black border-b md:border-b-0 md:border-r border-white/10", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FramedImage, { src: loginAngel, alt: "Dear Angel", className: "min-h-[220px] sm:min-h-[280px] md:min-h-full" }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full md:w-[55%] p-5 sm:p-8 md:p-12 flex flex-col justify-center items-center relative bg-[#0a0a0a] md:border-l border-white/10", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { mode: "wait", children: !isRegistering ? /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "w-full max-w-sm flex flex-col gap-6", initial: {
         x: 50,
         opacity: 0
       }, animate: {
@@ -616,19 +644,11 @@ function Auth({
 function Intro({
   onYes
 }) {
-  const [noPos, setNoPos] = reactExports.useState({
-    x: 0,
-    y: 0
-  });
-  const dodge = () => {
-    const x = (Math.random() - 0.5) * 320;
-    const y = (Math.random() - 0.5) * 280;
-    setNoPos({
-      x,
-      y
-    });
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 text-center", initial: {
+  const {
+    noPos,
+    dodge
+  } = useDodgeNo();
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: `${PAGE} px-4`, initial: {
     opacity: 0
   }, animate: {
     opacity: 1
@@ -680,7 +700,7 @@ function Intro({
         repeat: Infinity
       }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(GlowButterfly, { size: 36 }) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.h1, { className: "font-display text-5xl font-semibold text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-6xl md:text-7xl", initial: {
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.h1, { className: "font-display text-3xl font-semibold text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-5xl md:text-6xl", initial: {
       y: 20,
       opacity: 0
     }, animate: {
@@ -705,7 +725,7 @@ function Intro({
       delay: 1,
       duration: 1
     }, children: "Are you ready for your birthday surprise? ✨" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "relative mt-10 flex items-center gap-5", initial: {
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "relative mt-8 flex w-full max-w-sm flex-col items-center gap-4 sm:mt-10 sm:flex-row sm:justify-center sm:gap-5", initial: {
       opacity: 0
     }, animate: {
       opacity: 1
@@ -713,17 +733,18 @@ function Intro({
       delay: 1.6,
       duration: 0.8
     }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onYes, className: "rounded-full px-8 py-3 font-display text-lg text-black shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-transform hover:scale-105", style: {
-        background: "linear-gradient(135deg, #f5e6b8, #d4af37)"
-      }, children: "Yes 💕" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(motion.button, { onMouseEnter: dodge, onTouchStart: dodge, onClick: dodge, animate: {
+      /* @__PURE__ */ jsxRuntimeExports.jsx(GoldButton, { onClick: onYes, className: "w-full sm:w-auto", children: "Yes 💕" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(motion.button, { onPointerEnter: dodge, onTouchStart: (e) => {
+        e.preventDefault();
+        dodge();
+      }, onClick: dodge, animate: {
         x: noPos.x,
         y: noPos.y
       }, transition: {
         type: "spring",
         stiffness: 260,
         damping: 18
-      }, className: "rounded-full bg-white/10 px-8 py-3 font-display text-lg text-white/80 backdrop-blur border border-white/15 transition-colors hover:bg-white/15", children: "No 💔" })
+      }, className: "min-h-[48px] w-full rounded-full bg-white/10 px-8 py-3 font-display text-base text-white/80 backdrop-blur border border-white/15 sm:w-auto sm:text-lg", children: "No 💔" })
     ] })
   ] }, "intro");
 }
@@ -732,27 +753,6 @@ function Cards({
 }) {
   const [currentCard, setCurrentCard] = reactExports.useState(1);
   const [isOpen, setIsOpen] = reactExports.useState(false);
-  reactExports.useEffect(() => {
-    fetch("http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "7f8197"
-      },
-      body: JSON.stringify({
-        sessionId: "7f8197",
-        location: "index.tsx:Cards",
-        message: "Cards phase mounted",
-        data: {
-          currentCard,
-          isOpen
-        },
-        hypothesisId: "H3",
-        timestamp: Date.now()
-      })
-    }).catch(() => {
-    });
-  }, []);
   const cardData = {
     1: {
       image: landingAngel,
@@ -773,7 +773,7 @@ function Cards({
       onDone();
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center", initial: {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: `${PAGE} px-4`, initial: {
     opacity: 0,
     y: 24
   }, animate: {
@@ -789,7 +789,7 @@ function Cards({
       /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-4xl", children: isOpen ? "Your Picture Card 💝" : "Your Picture Cards 🖼️" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 font-display text-base italic text-white/70 sm:text-lg", children: isOpen ? "From a heart that beats for you..." : "Tap the card below to reveal your photo 💌" })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative z-20 flex w-full max-w-[340px] items-center justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { mode: "wait", children: !isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { onClick: () => setIsOpen(true), className: "relative flex h-[420px] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-amber-400/30 bg-[#141414] p-6 shadow-[0_20px_60px_rgba(212,175,55,0.15)]", initial: {
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative z-20 flex w-full max-w-[min(340px,100%)] items-center justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { mode: "wait", children: !isOpen ? /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { onClick: () => setIsOpen(true), className: "relative flex h-[420px] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-amber-400/30 bg-[#141414] p-6 shadow-[0_20px_60px_rgba(212,175,55,0.15)]", initial: {
       opacity: 0,
       scale: 0.92
     }, animate: {
@@ -875,25 +875,6 @@ function Garden({
   reactExports.useEffect(() => {
     if (discovered.size >= 8 && !showGolden) {
       setShowGolden(true);
-      fetch("http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "7f8197"
-        },
-        body: JSON.stringify({
-          sessionId: "7f8197",
-          location: "index.tsx:Garden.showGolden",
-          message: "golden butterfly unlocked",
-          data: {
-            discoveredSize: discovered.size,
-            discoveredIds: [...discovered]
-          },
-          hypothesisId: "H1",
-          timestamp: Date.now()
-        })
-      }).catch(() => {
-      });
     }
   }, [discovered, showGolden]);
   const openButterfly = (b) => {
@@ -910,24 +891,6 @@ function Garden({
     if (activeB) {
       if (activeB.id === 9) {
         setActiveB(null);
-        fetch("http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Debug-Session-Id": "7f8197"
-          },
-          body: JSON.stringify({
-            sessionId: "7f8197",
-            location: "index.tsx:Garden.handleCloseCard",
-            message: "golden butterfly closed, calling onDone",
-            data: {
-              butterflyId: activeB.id
-            },
-            hypothesisId: "H2",
-            timestamp: Date.now()
-          })
-        }).catch(() => {
-        });
         onDone();
       } else {
         setDiscovered((prev) => {
@@ -939,7 +902,7 @@ function Garden({
       }
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-10 flex min-h-[100svh] flex-col justify-between px-6 pt-12 pb-10 text-center overflow-hidden", initial: {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-10 flex min-h-[100svh] min-h-[100dvh] flex-col justify-between page-shell pt-10 pb-8 text-center overflow-hidden sm:pt-12 sm:pb-10", initial: {
     opacity: 0
   }, animate: {
     opacity: 1
@@ -949,7 +912,7 @@ function Garden({
     duration: 0.7
   }, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "z-10 max-w-xl mx-auto", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(motion.h2, { className: "font-display text-2xl md:text-4xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] leading-tight", initial: {
+      /* @__PURE__ */ jsxRuntimeExports.jsx(motion.h2, { className: "font-display text-xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] leading-tight sm:text-3xl md:text-4xl", initial: {
         y: -20,
         opacity: 0
       }, animate: {
@@ -1015,11 +978,11 @@ function Garden({
       }
     }, onClick: () => openButterfly(GOLDEN_BUTTERFLY), children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute h-32 w-32 rounded-full bg-amber-400/25 blur-2xl animate-pulse" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(GlowButterfly, { size: 100, glow: "#ffd700" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-3 font-display text-sm font-bold text-amber-200 tracking-wider bg-black/70 px-4 py-2 rounded-full border border-amber-400/50 shadow-[0_0_30px_rgba(212,175,55,0.4)]", children: "TAP GOLDEN BUTTERFLY 🌹" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "scale-90 sm:scale-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(GlowButterfly, { size: 88, glow: "#ffd700" }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-2 sm:mt-3 font-display text-xs sm:text-sm font-bold text-amber-200 tracking-wider bg-black/70 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-amber-400/50 shadow-[0_0_30px_rgba(212,175,55,0.4)]", children: "TAP GOLDEN BUTTERFLY 🌹" })
     ] }) }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-20" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: activeB && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/70 backdrop-blur-sm pointer-events-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: `relative w-full max-w-[340px] overflow-hidden rounded-3xl border border-white/15 bg-[#111] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl text-center flex flex-col items-center justify-between ${activeB.animation === "notification" ? "border-amber-300/30 bg-[#1a1a1a] text-left shadow-[0_15px_30px_rgba(0,0,0,0.5)]" : ""}`, initial: {
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: activeB && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm pointer-events-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: `relative w-full max-w-[min(340px,100%)] max-h-[88dvh] overflow-y-auto rounded-2xl sm:rounded-3xl border border-white/15 bg-[#111] p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl text-center flex flex-col items-center justify-between ${activeB.animation === "notification" ? "border-amber-300/30 bg-[#1a1a1a] text-left shadow-[0_15px_30px_rgba(0,0,0,0.5)]" : ""}`, initial: {
       scale: 0.9,
       opacity: 0,
       y: 35
@@ -1076,6 +1039,53 @@ function Garden({
     ] }) }) })
   ] }, "garden");
 }
+function CakeVisual({
+  litCount,
+  candleCount
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative flex flex-col items-center select-none", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative z-10 mb-0 flex items-end justify-center gap-2 sm:gap-3", children: Array.from({
+      length: candleCount
+    }).map((_, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: i < litCount && /* @__PURE__ */ jsxRuntimeExports.jsx(motion.div, { className: "relative mb-0.5 h-5 w-3 sm:h-6 sm:w-3.5", initial: {
+        scale: 0,
+        opacity: 0
+      }, animate: {
+        scale: 1,
+        opacity: 1
+      }, exit: {
+        scale: 0,
+        opacity: 0,
+        y: -12
+      }, transition: {
+        exit: {
+          duration: 0.35
+        }
+      }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-0 left-1/2 h-full w-full -translate-x-1/2 rounded-full bg-gradient-to-t from-orange-500 via-yellow-300 to-yellow-100 animate-flame shadow-[0_0_12px_#fbbf24]" }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1 rounded-full bg-gradient-to-b from-amber-50 to-amber-200 shadow-sm sm:w-1.5", style: {
+        height: i % 2 === 0 ? 28 : 22
+      } })
+    ] }, i)) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative z-10 -mb-1 h-4 w-4 rounded-full bg-red-500 shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.3)] sm:h-5 sm:w-5", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -top-2 left-1/2 h-3 w-0.5 -translate-x-1/2 rotate-12 rounded-full bg-green-600" }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-[1] -mt-1 w-[7.5rem] sm:w-36", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-10 rounded-t-[2rem] bg-gradient-to-b from-pink-100 via-pink-200 to-pink-400 shadow-inner sm:h-12" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-1 left-2 right-2 flex justify-between px-1", children: [0, 1, 2, 3, 4].map((d) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-3 w-2 rounded-b-full bg-pink-200/90 sm:h-4 sm:w-2.5" }, d)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative -mt-1 w-[9rem] sm:w-44", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-12 rounded-t-[1.5rem] bg-gradient-to-b from-amber-50 via-amber-100 to-amber-200 shadow-md sm:h-14" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-x-3 top-2 h-1 rounded-full bg-white/50" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-1 left-3 right-3 flex justify-between", children: [0, 1, 2, 3, 4, 5].map((d) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-3.5 w-2.5 rounded-b-full bg-amber-100 sm:h-4" }, d)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative -mt-1 w-[11rem] sm:w-52", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex h-14 items-center justify-center rounded-b-[1.25rem] bg-gradient-to-b from-amber-200 via-amber-300 to-amber-500 shadow-xl sm:h-16", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-display text-sm font-bold text-amber-950 sm:text-base", children: [
+        "Dear ",
+        NAME,
+        " 🎂"
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-1 h-3 w-[115%] -translate-x-[7.5%] rounded-[50%] bg-white/15 shadow-[0_4px_20px_rgba(255,255,255,0.1)]" })
+    ] })
+  ] });
+}
 function BirthdayCake({
   onDone
 }) {
@@ -1083,26 +1093,6 @@ function BirthdayCake({
   const [litCount, setLitCount] = reactExports.useState(candleCount);
   const [blowing, setBlowing] = reactExports.useState(false);
   const [wishMade, setWishMade] = reactExports.useState(false);
-  reactExports.useEffect(() => {
-    fetch("http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "7f8197"
-      },
-      body: JSON.stringify({
-        sessionId: "7f8197",
-        location: "index.tsx:BirthdayCake",
-        message: "Cake phase mounted",
-        data: {
-          litCount
-        },
-        hypothesisId: "H4",
-        timestamp: Date.now()
-      })
-    }).catch(() => {
-    });
-  }, []);
   const blowCandles = () => {
     if (blowing || litCount === 0) return;
     setBlowing(true);
@@ -1113,29 +1103,11 @@ function BirthdayCake({
       setLitCount(remaining);
       if (remaining <= 0) {
         clearInterval(interval);
-        setTimeout(() => {
-          fetch("http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Debug-Session-Id": "7f8197"
-            },
-            body: JSON.stringify({
-              sessionId: "7f8197",
-              location: "index.tsx:BirthdayCake",
-              message: "all candles blown, going to final",
-              data: {},
-              hypothesisId: "H4",
-              timestamp: Date.now()
-            })
-          }).catch(() => {
-          });
-          onDone();
-        }, 1800);
+        setTimeout(onDone, 2e3);
       }
     }, 350);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center", initial: {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: `${PAGE} px-4`, initial: {
     opacity: 0,
     y: 24
   }, animate: {
@@ -1147,59 +1119,22 @@ function BirthdayCake({
   }, transition: {
     duration: 0.6
   }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8 max-w-lg", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-4xl", children: "Happy Birthday! 🎂" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 font-display text-base italic text-white/70 sm:text-lg", children: wishMade ? "Make a wish... the candles are going out! ✨" : "Make a wish, then blow out the candles 🌬️" })
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 max-w-lg sm:mb-8", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-2xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-4xl", children: "Happy Birthday! 🎂" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 font-display text-sm italic text-white/70 sm:mt-3 sm:text-lg", children: wishMade ? "Make a wish... the candles are going out! ✨" : "Make a wish, then blow out the candles 🌬️" })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mb-10 flex flex-col items-center", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-1 flex items-end justify-center gap-3 sm:gap-4", children: Array.from({
-        length: candleCount
-      }).map((_, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: i < litCount && /* @__PURE__ */ jsxRuntimeExports.jsx(motion.div, { className: "mb-0.5 text-xl sm:text-2xl", initial: {
-          scale: 0,
-          opacity: 0
-        }, animate: {
-          scale: [1, 1.15, 1],
-          opacity: 1,
-          y: [0, -2, 0]
-        }, exit: {
-          scale: 0,
-          opacity: 0,
-          y: -20
-        }, transition: {
-          scale: {
-            duration: 0.6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          },
-          y: {
-            duration: 0.5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          },
-          exit: {
-            duration: 0.4
-          }
-        }, children: "🔥" }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 rounded-full bg-gradient-to-b from-amber-100 to-amber-300 sm:w-2", style: {
-          height: i % 2 === 0 ? 36 : 28
-        } })
-      ] }, i)) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-8 w-44 rounded-t-2xl bg-gradient-to-b from-rose-300 to-rose-500 shadow-lg sm:w-52" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-10 w-52 rounded-t-xl bg-gradient-to-b from-amber-200 to-amber-400 shadow-xl sm:w-60" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex h-12 w-60 items-center justify-center rounded-b-2xl bg-gradient-to-b from-amber-400 to-amber-600 shadow-2xl sm:w-72", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-lg font-bold text-amber-950 sm:text-xl", children: "Dear Reena 🎂" }) })
-      ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mb-8 sm:mb-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CakeVisual, { litCount, candleCount }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: litCount === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pointer-events-none absolute inset-0 flex items-center justify-center", children: Array.from({
         length: 20
-      }).map((_, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(motion.span, { className: "absolute text-lg", initial: {
+      }).map((_, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(motion.span, { className: "absolute text-base sm:text-lg", initial: {
         x: 0,
         y: 0,
         opacity: 1,
         scale: 0
       }, animate: {
-        x: (Math.random() - 0.5) * 300,
-        y: (Math.random() - 0.5) * 300,
+        x: (Math.random() - 0.5) * 260,
+        y: (Math.random() - 0.5) * 260,
         opacity: [1, 0],
         scale: [0, 1.5],
         rotate: Math.random() * 360
@@ -1208,12 +1143,8 @@ function BirthdayCake({
         delay: i * 0.04
       }, children: ["🎉", "✨", "💖", "🎊", "⭐"][i % 5] }, i)) }) })
     ] }),
-    litCount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(motion.button, { onClick: blowCandles, disabled: blowing, className: "rounded-full px-10 py-3.5 font-display text-lg font-semibold text-black shadow-[0_0_40px_rgba(212,175,55,0.35)] transition-transform hover:scale-105 active:scale-[0.98] disabled:opacity-60", style: {
-      background: "linear-gradient(135deg, #f5e6b8, #d4af37)"
-    }, whileTap: {
-      scale: 0.95
-    }, children: blowing ? "Blowing... 🌬️" : "Blow the Candles 🌬️" }),
-    litCount === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(motion.p, { className: "font-display text-2xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)]", initial: {
+    litCount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(GoldButton, { onClick: blowCandles, disabled: blowing, children: blowing ? "Blowing... 🌬️" : "Blow the Candles 🌬️" }),
+    litCount === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(motion.p, { className: "font-display text-xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-2xl", initial: {
       opacity: 0,
       scale: 0.8
     }, animate: {
@@ -1222,28 +1153,35 @@ function BirthdayCake({
     }, children: "Wish granted! ✨💖" })
   ] }, "cake");
 }
-function Final() {
+function Final({
+  onDone
+}) {
   const [lineIdx, setLineIdx] = reactExports.useState(0);
+  const [ready, setReady] = reactExports.useState(false);
   reactExports.useEffect(() => {
     if (lineIdx < FINAL_LINES.length - 1) {
       const t = setTimeout(() => setLineIdx(lineIdx + 1), 1800);
+      return () => clearTimeout(t);
+    }
+    if (lineIdx === FINAL_LINES.length - 1) {
+      const t = setTimeout(() => setReady(true), 1200);
       return () => clearTimeout(t);
     }
   }, [lineIdx]);
   const hearts = Array.from({
     length: 24
   });
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: "relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center", initial: {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: `${PAGE} px-4`, initial: {
     opacity: 0
   }, animate: {
     opacity: 1
   }, transition: {
     duration: 0.9
   }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pointer-events-none absolute inset-0 flex items-center justify-center", children: hearts.map((_, i) => {
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden", children: hearts.map((_, i) => {
       const angle = i / hearts.length * Math.PI * 2;
-      const r = 260 + Math.random() * 120;
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(motion.span, { className: "absolute text-2xl", initial: {
+      const r = 160 + Math.random() * 80;
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(motion.span, { className: "absolute text-lg sm:text-2xl", initial: {
         x: 0,
         y: 0,
         opacity: 0,
@@ -1259,8 +1197,8 @@ function Final() {
         delay: i * 0.06
       }, children: ["💖", "💕", "🌸", "✨", "🦋"][i % 5] }, i);
     }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative max-w-xl space-y-5", children: [
-      FINAL_LINES.slice(0, lineIdx + 1).map((line, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(motion.p, { className: i === 0 ? "font-display text-4xl text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-5xl" : "font-display text-xl italic text-white/80 sm:text-2xl", initial: {
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative max-w-xl space-y-4 sm:space-y-5", children: [
+      FINAL_LINES.slice(0, lineIdx + 1).map((line, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(motion.p, { className: i === 0 ? "font-display text-3xl text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.35)] sm:text-4xl md:text-5xl" : "font-display text-lg italic text-white/80 sm:text-xl md:text-2xl", initial: {
         opacity: 0,
         y: 18
       }, animate: {
@@ -1269,49 +1207,116 @@ function Final() {
       }, transition: {
         duration: 0.9
       }, children: line }, i)),
-      lineIdx === FINAL_LINES.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(motion.div, { className: "flex justify-center pt-6", initial: {
+      lineIdx === FINAL_LINES.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "flex flex-col items-center gap-6 pt-4 sm:pt-6", initial: {
         scale: 0,
-        rotate: -20,
         opacity: 0
       }, animate: {
         scale: 1,
-        rotate: 0,
         opacity: 1
       }, transition: {
         type: "spring",
         stiffness: 120,
         damping: 12,
         delay: 0.4
-      }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(GlowButterfly, { size: 110 }) })
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(GlowButterfly, { size: 90 }),
+        ready && /* @__PURE__ */ jsxRuntimeExports.jsx(motion.div, { initial: {
+          opacity: 0,
+          y: 12
+        }, animate: {
+          opacity: 1,
+          y: 0
+        }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(GoldButton, { onClick: onDone, children: "One more thing... 💫" }) })
+      ] })
     ] })
   ] }, "final");
+}
+function ComradeAsk() {
+  const {
+    noPos,
+    dodge
+  } = useDodgeNo();
+  const [saidNo, setSaidNo] = reactExports.useState(false);
+  const [saidYes, setSaidYes] = reactExports.useState(false);
+  const handleNo = () => {
+    setSaidNo(true);
+  };
+  const handleYes = () => {
+    if (!saidNo) setSaidYes(true);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.section, { className: `${PAGE} px-4`, initial: {
+    opacity: 0,
+    y: 20
+  }, animate: {
+    opacity: 1,
+    y: 0
+  }, transition: {
+    duration: 0.7
+  }, children: [
+    !saidYes && !saidNo && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(motion.h2, { className: "font-display text-2xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.35)] sm:text-4xl", initial: {
+        opacity: 0,
+        y: 16
+      }, animate: {
+        opacity: 1,
+        y: 0
+      }, children: "Will you let me be your comrade, dear? 🤝" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(motion.p, { className: "mt-4 max-w-sm font-display text-base italic text-white/65 sm:mt-6 sm:text-lg", initial: {
+        opacity: 0
+      }, animate: {
+        opacity: 1
+      }, transition: {
+        delay: 0.3
+      }, children: "Always cheering for you, through every smile and storm..." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "relative mt-10 flex w-full max-w-sm flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-5", initial: {
+        opacity: 0
+      }, animate: {
+        opacity: 1
+      }, transition: {
+        delay: 0.6
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(GoldButton, { onClick: handleYes, className: "w-full sm:w-auto", children: "Yes 💕" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(motion.button, { type: "button", onPointerEnter: dodge, onTouchStart: (e) => {
+          e.preventDefault();
+          dodge();
+        }, onClick: handleNo, animate: {
+          x: noPos.x,
+          y: noPos.y
+        }, transition: {
+          type: "spring",
+          stiffness: 280,
+          damping: 18
+        }, className: "min-h-[48px] w-full rounded-full bg-white/10 px-8 py-3 font-display text-base text-white/80 backdrop-blur border border-white/15 sm:w-auto sm:text-lg", children: "No 💔" })
+      ] })
+    ] }),
+    saidYes && !saidNo && /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "max-w-md space-y-4", initial: {
+      opacity: 0,
+      scale: 0.95
+    }, animate: {
+      opacity: 1,
+      scale: 1
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-5xl", children: "🤝💖" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-2xl font-semibold text-white sm:text-3xl", children: "Always by your side, dear." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-display text-lg italic text-white/75 sm:text-xl", children: "But honestly... I'm only your well-wisher only, dear. 🌸" })
+    ] }),
+    saidNo && /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { className: "max-w-md space-y-4", initial: {
+      opacity: 0,
+      scale: 0.95
+    }, animate: {
+      opacity: 1,
+      scale: 1
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-5xl", children: "😉🌸" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-2xl font-semibold text-white sm:text-3xl", children: "Haha, just joking!" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-display text-lg italic text-amber-200/90 sm:text-xl", children: "I'm only your well-wisher only, dear. 💫" })
+    ] })
+  ] }, "comrade");
 }
 function SerenadePage() {
   const [phase, setPhase] = reactExports.useState("landing");
   const audioRef = reactExports.useRef(null);
   const [muted, setMuted] = reactExports.useState(true);
-  const goToPhase = (next) => {
-    fetch("http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "7f8197"
-      },
-      body: JSON.stringify({
-        sessionId: "7f8197",
-        location: "index.tsx:SerenadePage.goToPhase",
-        message: "phase transition",
-        data: {
-          from: phase,
-          to: next
-        },
-        hypothesisId: "H1",
-        timestamp: Date.now()
-      })
-    }).catch(() => {
-    });
-    setPhase(next);
-  };
   reactExports.useEffect(() => {
     window.scrollTo({
       top: 0
@@ -1328,17 +1333,18 @@ function SerenadePage() {
       return next;
     });
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "relative min-h-[100svh] overflow-hidden bg-black", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "relative min-h-[100svh] min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-black", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { count: 30 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: toggleMute, className: "fixed right-4 top-4 z-50 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10", "aria-label": muted ? "Unmute music" : "Mute music", children: muted ? "🔇" : "🎵" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: toggleMute, className: "fixed right-3 top-3 z-50 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-white/10 sm:right-4 sm:top-4", "aria-label": muted ? "Unmute music" : "Mute music", children: muted ? "🔇" : "🎵" }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(AnimatePresence, { mode: "wait", children: [
-      phase === "landing" && /* @__PURE__ */ jsxRuntimeExports.jsx(Landing, { onContinue: () => goToPhase("auth") }, "landing"),
-      phase === "auth" && /* @__PURE__ */ jsxRuntimeExports.jsx(Auth, { onSuccess: () => goToPhase("intro") }, "auth"),
-      phase === "intro" && /* @__PURE__ */ jsxRuntimeExports.jsx(Intro, { onYes: () => goToPhase("garden") }, "intro"),
-      phase === "garden" && /* @__PURE__ */ jsxRuntimeExports.jsx(Garden, { onDone: () => goToPhase("cards") }, "garden"),
-      phase === "cards" && /* @__PURE__ */ jsxRuntimeExports.jsx(Cards, { onDone: () => goToPhase("cake") }, "cards"),
-      phase === "cake" && /* @__PURE__ */ jsxRuntimeExports.jsx(BirthdayCake, { onDone: () => goToPhase("final") }, "cake"),
-      phase === "final" && /* @__PURE__ */ jsxRuntimeExports.jsx(Final, {}, "final")
+      phase === "landing" && /* @__PURE__ */ jsxRuntimeExports.jsx(Landing, { onContinue: () => setPhase("auth") }, "landing"),
+      phase === "auth" && /* @__PURE__ */ jsxRuntimeExports.jsx(Auth, { onSuccess: () => setPhase("intro") }, "auth"),
+      phase === "intro" && /* @__PURE__ */ jsxRuntimeExports.jsx(Intro, { onYes: () => setPhase("garden") }, "intro"),
+      phase === "garden" && /* @__PURE__ */ jsxRuntimeExports.jsx(Garden, { onDone: () => setPhase("cards") }, "garden"),
+      phase === "cards" && /* @__PURE__ */ jsxRuntimeExports.jsx(Cards, { onDone: () => setPhase("cake") }, "cards"),
+      phase === "cake" && /* @__PURE__ */ jsxRuntimeExports.jsx(BirthdayCake, { onDone: () => setPhase("final") }, "cake"),
+      phase === "final" && /* @__PURE__ */ jsxRuntimeExports.jsx(Final, { onDone: () => setPhase("comrade") }, "final"),
+      phase === "comrade" && /* @__PURE__ */ jsxRuntimeExports.jsx(ComradeAsk, {}, "comrade")
     ] })
   ] });
 }
