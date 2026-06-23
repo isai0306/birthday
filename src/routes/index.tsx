@@ -789,14 +789,18 @@ function Cards({ onDone }: { onDone: () => void }) {
   const cardData = {
     1: {
       image: landingAngel,
-      dialog: "To the most beautiful angel, Reena... You make my heart flutter like a million butterflies. 💖",
-      tag: "My Angel 🌸"
+      tag: "My Long Distance Crush 💫",
+      title: "Miles apart, heart together",
+      dialog:
+        "You're my long distance crush, Reena... Even from far away, you feel closer than anyone beside me. Every message from you is the best part of my day. 💖",
     },
     2: {
       image: loginAngel,
-      dialog: "In a sky full of stars, you are the one I choose to look at. Thank you for bringing so much glow into my life. ✨",
-      tag: "My Crush 👑"
-    }
+      tag: "Far Away, Close to Heart 🌙",
+      title: "My long distance crush",
+      dialog:
+        "I won't lie — having you as my long distance crush makes the distance feel a little softer. You're the person I think about when the day gets quiet, and the smile I hope is on the other side of the screen. ✨",
+    },
   };
 
   const handleNext = () => {
@@ -851,7 +855,9 @@ function Cards({ onDone }: { onDone: () => void }) {
                 </motion.div>
                 <div className="space-y-2">
                   <h3 className="font-display text-2xl font-bold text-white drop-shadow-md">Tap to open</h3>
-                  <p className="text-sm text-white/80 font-medium">Inside lies a little piece of my heart 💌</p>
+                  <p className="text-sm text-white/80 font-medium px-2">
+                    {cardData[currentCard].title} 💌
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -879,7 +885,10 @@ function Cards({ onDone }: { onDone: () => void }) {
               </div>
 
               {/* Sweet dialog */}
-              <div className="my-3 px-2">
+              <div className="my-3 px-2 space-y-2">
+                <p className="font-display text-sm font-semibold uppercase tracking-wider text-amber-300/80">
+                  {cardData[currentCard].title}
+                </p>
                 <p className="font-display text-base md:text-lg italic font-semibold text-white/90 leading-relaxed drop-shadow-sm">
                   "{cardData[currentCard].dialog}"
                 </p>
@@ -1399,16 +1408,12 @@ function Final({ onDone }: { onDone: () => void }) {
 
 /* ---------- Comrade question (playful ending) ---------- */
 function ComradeAsk() {
-  const { noPos, dodge } = useDodgeNo();
+  const { noPos, dodge: dodgeNo } = useDodgeNo();
+  const { noPos: yesPos, dodge: dodgeYes } = useDodgeNo();
   const [saidNo, setSaidNo] = useState(false);
-  const [saidYes, setSaidYes] = useState(false);
 
   const handleNo = () => {
     setSaidNo(true);
-  };
-
-  const handleYes = () => {
-    if (!saidNo) setSaidYes(true);
   };
 
   return (
@@ -1419,14 +1424,14 @@ function ComradeAsk() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}
     >
-      {!saidYes && !saidNo && (
+      {!saidNo && (
         <>
           <motion.h2
             className="font-display text-2xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.35)] sm:text-4xl"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            Will you let me be your comrade, dear? 🤝
+            Will you be my comrade, dear? 🤝
           </motion.h2>
           <motion.p
             className="mt-4 max-w-sm font-display text-base italic text-white/65 sm:mt-6 sm:text-lg"
@@ -1443,12 +1448,21 @@ function ComradeAsk() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <GoldButton onClick={handleYes} className="w-full sm:w-auto">
-              Yes 💕
-            </GoldButton>
             <motion.button
               type="button"
-              onPointerEnter={dodge}
+              onPointerEnter={dodgeYes}
+              onTouchStart={(e) => { e.preventDefault(); dodgeYes(); }}
+              onClick={dodgeYes}
+              animate={{ x: yesPos.x, y: yesPos.y }}
+              transition={{ type: "spring", stiffness: 280, damping: 18 }}
+              className="min-h-[48px] w-full rounded-full px-8 py-3 font-display text-base font-semibold text-black shadow-[0_0_32px_rgba(212,175,55,0.35)] sm:w-auto sm:text-lg"
+              style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
+            >
+              Yes 💕
+            </motion.button>
+            <motion.button
+              type="button"
+              onPointerEnter={dodgeNo}
               onClick={handleNo}
               animate={{ x: noPos.x, y: noPos.y }}
               transition={{ type: "spring", stiffness: 280, damping: 18 }}
@@ -1457,23 +1471,15 @@ function ComradeAsk() {
               No 💔
             </motion.button>
           </motion.div>
+          <motion.p
+            className="mt-6 text-xs italic text-white/40 sm:text-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            Try tapping Yes... good luck 😄
+          </motion.p>
         </>
-      )}
-
-      {saidYes && !saidNo && (
-        <motion.div
-          className="max-w-md space-y-4"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-        >
-          <span className="text-5xl">🤝💖</span>
-          <h2 className="font-display text-2xl font-semibold text-white sm:text-3xl">
-            Always by your side, dear.
-          </h2>
-          <p className="font-display text-lg italic text-white/75 sm:text-xl">
-            But honestly... I'm only your well-wisher only, dear. 🌸
-          </p>
-        </motion.div>
       )}
 
       {saidNo && (
