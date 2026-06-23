@@ -12,4 +12,6 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Required for Vercel (and other hosts): enables Nitro serverless build output
+  nitro: { preset: "vercel" },
 });

@@ -4,8 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Butterfly } from "../components/Butterfly";
 import landingAngel from "../assets/photos/landing-angel.png";
 import loginAngel from "../assets/photos/login-angel.png";
-import reena1 from "../assets/photos/reena1.png";
-import reena2 from "../assets/photos/reena2.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -120,7 +118,30 @@ That's why you'll always be my Angel. 👼❤️`,
   animation: "golden-aura"
 };
 
-type Phase = "landing" | "auth" | "intro" | "cards" | "garden" | "final";
+type Phase = "landing" | "auth" | "intro" | "garden" | "cards" | "cake" | "final";
+
+function FramedImage({
+  src,
+  alt,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`flex h-full min-h-0 w-full items-center justify-center overflow-hidden bg-black p-2 sm:p-3 ${className}`}
+    >
+      <img
+        src={src}
+        alt={alt}
+        draggable={false}
+        className="h-full w-full object-contain"
+      />
+    </div>
+  );
+}
 
 /* ---------- Glowing Butterfly SVG wrapper ---------- */
 function GlowButterfly({ size = 48, glow = "#ff5cd6" }: { size?: number; glow?: string }) {
@@ -377,12 +398,8 @@ function Landing({ onContinue }: { onContinue: () => void }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.9 }}
     >
-      <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-black">
-        <img
-          src={landingAngel}
-          alt="Dear Angel"
-          className="max-h-[88%] max-w-full object-contain object-bottom"
-        />
+      <div className="pointer-events-none absolute inset-0 bg-black">
+        <FramedImage src={landingAngel} alt="Dear Angel" className="min-h-full pb-24" />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/40 to-transparent" />
       </div>
 
@@ -451,12 +468,8 @@ function Auth({ onSuccess }: { onSuccess: () => void }) {
       <div className="relative z-10 w-full max-w-5xl rounded-3xl overflow-hidden border border-white/10 bg-black shadow-[0_24px_60px_rgba(0,0,0,0.8)] flex flex-col md:flex-row min-h-[520px]">
         
         {/* Left Side: Login image beside card */}
-        <div className="w-full md:w-[45%] relative min-h-[280px] md:min-h-[560px] overflow-hidden bg-black flex items-center justify-center">
-          <img 
-            src={loginAngel} 
-            alt="Dear Angel" 
-            className="max-h-full max-w-full object-contain"
-          />
+        <div className="w-full md:w-[45%] min-h-[300px] md:min-h-0 md:self-stretch overflow-hidden bg-black border-b md:border-b-0 md:border-r border-white/10">
+          <FramedImage src={loginAngel} alt="Dear Angel" className="min-h-[300px] md:min-h-full" />
         </div>
 
         {/* Right Side: Auth Card */}
@@ -754,14 +767,20 @@ function Cards({ onDone }: { onDone: () => void }) {
   const [currentCard, setCurrentCard] = useState<1 | 2>(1);
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    // #region agent log
+    fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:Cards',message:'Cards phase mounted',data:{currentCard,isOpen},hypothesisId:'H3',timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+  }, []);
+
   const cardData = {
     1: {
-      image: reena1,
+      image: landingAngel,
       dialog: "To the most beautiful angel, Reena... You make my heart flutter like a million butterflies. 💖",
       tag: "My Angel 🌸"
     },
     2: {
-      image: reena2,
+      image: loginAngel,
       dialog: "In a sky full of stars, you are the one I choose to look at. Thank you for bringing so much glow into my life. ✨",
       tag: "My Crush 👑"
     }
@@ -779,33 +798,33 @@ function Cards({ onDone }: { onDone: () => void }) {
   return (
     <motion.section
       key="cards"
-      className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 text-center"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.7 }}
+      className="relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -24 }}
+      transition={{ duration: 0.6 }}
     >
-      <div className="mb-6">
-        <h2 className="font-display text-3xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] sm:text-4xl">
-          {isOpen ? "A Gift for You 💝" : "They left a gift just for you 🎁"}
+      <div className="mb-8 w-full max-w-md">
+        <h2 className="font-display text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-4xl">
+          {isOpen ? "Your Picture Card 💝" : "Your Picture Cards 🖼️"}
         </h2>
-        <p className="mt-2 font-display text-sm italic text-white/60 sm:text-base">
-          {isOpen ? "From a heart that beats for you..." : "Tap the butterfly card to reveal it 💌"}
+        <p className="mt-3 font-display text-base italic text-white/70 sm:text-lg">
+          {isOpen ? "From a heart that beats for you..." : "Tap the card below to reveal your photo 💌"}
         </p>
       </div>
 
-      <div className="relative flex items-center justify-center h-[450px] w-full max-w-[320px]">
+      <div className="relative z-20 flex w-full max-w-[340px] items-center justify-center">
         <AnimatePresence mode="wait">
           {!isOpen ? (
             <motion.div
-              key="closed-card"
+              key={`closed-card-${currentCard}`}
               onClick={() => setIsOpen(true)}
-              className="relative flex h-[420px] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border border-white/15 bg-[#111] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl hover:border-white/25 transition-all duration-300"
-              initial={{ rotateY: -180, opacity: 0, scale: 0.8 }}
-              animate={{ rotateY: 0, opacity: 1, scale: 1 }}
-              exit={{ rotateY: 180, opacity: 0, scale: 0.8 }}
-              transition={{ type: "spring", stiffness: 100, damping: 15 }}
-              whileHover={{ y: -5 }}
+              className="relative flex h-[420px] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-amber-400/30 bg-[#141414] p-6 shadow-[0_20px_60px_rgba(212,175,55,0.15)]"
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              transition={{ duration: 0.45 }}
+              whileHover={{ y: -4, borderColor: "rgba(212,175,55,0.5)" }}
             >
               <div className="absolute top-4 right-4 text-xs font-semibold text-amber-200 bg-black/60 rounded-full px-3 py-1 shadow-sm border border-white/10">
                 Card {currentCard} of 2
@@ -825,12 +844,12 @@ function Cards({ onDone }: { onDone: () => void }) {
             </motion.div>
           ) : (
             <motion.div
-              key="opened-card"
-              className="relative flex h-[440px] w-full flex-col items-center justify-between rounded-3xl border border-white/15 bg-[#111] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
-              initial={{ rotateY: -180, opacity: 0, scale: 0.8 }}
-              animate={{ rotateY: 0, opacity: 1, scale: 1 }}
-              exit={{ rotateY: 180, opacity: 0, scale: 0.8 }}
-              transition={{ type: "spring", stiffness: 100, damping: 15 }}
+              key={`opened-card-${currentCard}`}
+              className="relative flex min-h-[500px] w-full flex-col items-center justify-between rounded-3xl border-2 border-amber-400/30 bg-[#141414] p-5 shadow-[0_20px_60px_rgba(212,175,55,0.15)]"
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              transition={{ duration: 0.45 }}
             >
               {/* Card Tag */}
               <span className="absolute top-4 left-4 rounded-full bg-amber-600/80 px-3 py-1 font-display text-xs font-bold text-white shadow-sm backdrop-blur">
@@ -838,11 +857,11 @@ function Cards({ onDone }: { onDone: () => void }) {
               </span>
 
               {/* Card Photo */}
-              <div className="mt-6 flex h-[220px] w-full items-center justify-center overflow-hidden rounded-2xl border border-white/20 bg-black shadow-lg">
-                <img
+              <div className="mt-6 h-[240px] w-full shrink-0 overflow-hidden rounded-2xl border border-white/20 bg-black shadow-lg">
+                <FramedImage
                   src={cardData[currentCard].image}
                   alt="Reena"
-                  className="max-h-full max-w-full object-contain"
+                  className="h-full"
                 />
               </div>
 
@@ -859,7 +878,7 @@ function Cards({ onDone }: { onDone: () => void }) {
                 className="w-full rounded-full py-2.5 font-display text-sm font-semibold text-black shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all hover:scale-[1.02] active:scale-[0.98]"
                 style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
               >
-                {currentCard === 1 ? "Next Gift 🎁" : "Continue ✨"}
+                {currentCard === 1 ? "Next Gift 🎁" : "Blow the Candles 🎂"}
               </button>
             </motion.div>
           )}
@@ -911,18 +930,34 @@ function Garden({ onDone }: GardenProps) {
     setButterflies(arr);
   }, []);
 
-  // Check if all 8 are discovered
+  // Show golden butterfly when all 8 are discovered
   useEffect(() => {
-    if (discovered.size === 8 && !showGolden) {
+    if (discovered.size >= 8 && !showGolden) {
       setShowGolden(true);
+      // #region agent log
+      fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:Garden.showGolden',message:'golden butterfly unlocked',data:{discoveredSize:discovered.size,discoveredIds:[...discovered]},hypothesisId:'H1',timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
     }
   }, [discovered, showGolden]);
+
+  const openButterfly = (b: typeof GARDEN_BUTTERFLIES[number]) => {
+    setActiveB(b);
+    if (b.id !== 9) {
+      setDiscovered((prev) => {
+        const next = new Set(prev);
+        next.add(b.id);
+        return next;
+      });
+    }
+  };
 
   const handleCloseCard = () => {
     if (activeB) {
       if (activeB.id === 9) {
-        // Golden butterfly closed - finish garden phase
         setActiveB(null);
+        // #region agent log
+        fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:Garden.handleCloseCard',message:'golden butterfly closed, calling onDone',data:{butterflyId:activeB.id},hypothesisId:'H2',timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
         onDone();
       } else {
         setDiscovered((prev) => {
@@ -938,7 +973,7 @@ function Garden({ onDone }: GardenProps) {
   return (
     <motion.section
       key="garden"
-      className="relative z-10 flex min-h-[100svh] flex-col items-between justify-between px-6 pt-12 pb-10 text-center overflow-hidden"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-between px-6 pt-12 pb-10 text-center overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -955,8 +990,17 @@ function Garden({ onDone }: GardenProps) {
           Catch the butterflies to discover what makes you so special 🦋✨
         </motion.h2>
         <p className="mt-2 font-display text-sm md:text-base italic text-white/80">
-          Discovered: {discovered.size} / 8
+          Discovered: {Math.min(discovered.size, 8)} / 8 · Tap each butterfly to read its secret
         </p>
+        {showGolden && !activeB && (
+          <motion.p
+            className="mt-3 font-display text-base font-semibold text-amber-300 drop-shadow-[0_0_12px_rgba(212,175,55,0.5)]"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            ✨ Golden Butterfly appeared! Tap it in the center ✨
+          </motion.p>
+        )}
       </div>
 
       {/* Floating Butterflies container */}
@@ -980,7 +1024,7 @@ function Garden({ onDone }: GardenProps) {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
-                  onClick={() => setActiveB(b)}
+                  onClick={() => openButterfly(b)}
                   whileHover={{ scale: 1.15 }}
                 >
                   <GlowButterfly size={b.size} glow={b.color} />
@@ -989,35 +1033,37 @@ function Garden({ onDone }: GardenProps) {
             </AnimatePresence>
           );
         })}
-
-        {/* Hidden Golden Butterfly */}
-        <AnimatePresence>
-          {showGolden && !discovered.has(9) && (
-            <motion.div
-              className="pointer-events-auto absolute cursor-pointer flex flex-col items-center justify-center"
-              style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ 
-                scale: [0, 1.25, 1], 
-                opacity: 1,
-                y: [0, -12, 0]
-              }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ 
-                scale: { type: "spring", stiffness: 100, damping: 15 },
-                y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-              }}
-              onClick={() => setActiveB(GOLDEN_BUTTERFLY)}
-            >
-              <div className="absolute h-24 w-24 rounded-full bg-amber-400/20 blur-xl animate-pulse" />
-              <GlowButterfly size={80} glow="#ffd700" />
-              <span className="mt-2 font-display text-xs font-bold text-amber-200 tracking-wider bg-black/40 px-3 py-1 rounded-full backdrop-blur border border-amber-300/30">
-                GOLDEN BUTTERFLY 🌹
-              </span>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* Golden Butterfly — fixed center overlay (avoids transform bugs) */}
+      <AnimatePresence>
+        {showGolden && !activeB && (
+          <motion.div
+            className="fixed inset-0 z-30 flex items-center justify-center pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.button
+              type="button"
+              className="pointer-events-auto flex flex-col items-center justify-center cursor-pointer"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1, y: [0, -10, 0] }}
+              transition={{
+                scale: { type: "spring", stiffness: 200, damping: 16 },
+                y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+              }}
+              onClick={() => openButterfly(GOLDEN_BUTTERFLY)}
+            >
+              <div className="absolute h-32 w-32 rounded-full bg-amber-400/25 blur-2xl animate-pulse" />
+              <GlowButterfly size={100} glow="#ffd700" />
+              <span className="mt-3 font-display text-sm font-bold text-amber-200 tracking-wider bg-black/70 px-4 py-2 rounded-full border border-amber-400/50 shadow-[0_0_30px_rgba(212,175,55,0.4)]">
+                TAP GOLDEN BUTTERFLY 🌹
+              </span>
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Placeholder spacer */}
       <div className="h-20" />
@@ -1093,7 +1139,7 @@ function Garden({ onDone }: GardenProps) {
                     className="w-full rounded-full py-2.5 font-display text-sm font-semibold text-black shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-transform"
                     style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
                   >
-                    {activeB.id === 9 ? "You are my Angel ❤️" : "Keep Exploring ✨"}
+                    {activeB.id === 9 ? "Open Picture Cards 🖼️" : "Keep Exploring ✨"}
                   </button>
                 </div>
               )}
@@ -1101,6 +1147,157 @@ function Garden({ onDone }: GardenProps) {
           </div>
         )}
       </AnimatePresence>
+    </motion.section>
+  );
+}
+
+/* ---------- Birthday Cake: blow out candles ---------- */
+function BirthdayCake({ onDone }: { onDone: () => void }) {
+  const candleCount = 5;
+  const [litCount, setLitCount] = useState(candleCount);
+  const [blowing, setBlowing] = useState(false);
+  const [wishMade, setWishMade] = useState(false);
+
+  useEffect(() => {
+    // #region agent log
+    fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:BirthdayCake',message:'Cake phase mounted',data:{litCount},hypothesisId:'H4',timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+  }, []);
+
+  const blowCandles = () => {
+    if (blowing || litCount === 0) return;
+    setBlowing(true);
+    setWishMade(true);
+
+    let remaining = litCount;
+    const interval = setInterval(() => {
+      remaining -= 1;
+      setLitCount(remaining);
+      if (remaining <= 0) {
+        clearInterval(interval);
+        setTimeout(() => {
+          // #region agent log
+          fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:BirthdayCake',message:'all candles blown, going to final',data:{},hypothesisId:'H4',timestamp:Date.now()})}).catch(()=>{});
+          // #endregion
+          onDone();
+        }, 1800);
+      }
+    }, 350);
+  };
+
+  return (
+    <motion.section
+      key="cake"
+      className="relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -24 }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="mb-8 max-w-lg">
+        <h2 className="font-display text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)] sm:text-4xl">
+          Happy Birthday! 🎂
+        </h2>
+        <p className="mt-3 font-display text-base italic text-white/70 sm:text-lg">
+          {wishMade
+            ? "Make a wish... the candles are going out! ✨"
+            : "Make a wish, then blow out the candles 🌬️"}
+        </p>
+      </div>
+
+      {/* Cake */}
+      <div className="relative mb-10 flex flex-col items-center">
+        {/* Candles */}
+        <div className="mb-1 flex items-end justify-center gap-3 sm:gap-4">
+          {Array.from({ length: candleCount }).map((_, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <AnimatePresence>
+                {i < litCount && (
+                  <motion.div
+                    className="mb-0.5 text-xl sm:text-2xl"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{
+                      scale: [1, 1.15, 1],
+                      opacity: 1,
+                      y: [0, -2, 0],
+                    }}
+                    exit={{ scale: 0, opacity: 0, y: -20 }}
+                    transition={{
+                      scale: { duration: 0.6, repeat: Infinity, ease: "easeInOut" },
+                      y: { duration: 0.5, repeat: Infinity, ease: "easeInOut" },
+                      exit: { duration: 0.4 },
+                    }}
+                  >
+                    🔥
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div
+                className="w-1.5 rounded-full bg-gradient-to-b from-amber-100 to-amber-300 sm:w-2"
+                style={{ height: i % 2 === 0 ? 36 : 28 }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Cake layers */}
+        <div className="relative">
+          <div className="h-8 w-44 rounded-t-2xl bg-gradient-to-b from-rose-300 to-rose-500 shadow-lg sm:w-52" />
+          <div className="h-10 w-52 rounded-t-xl bg-gradient-to-b from-amber-200 to-amber-400 shadow-xl sm:w-60" />
+          <div className="flex h-12 w-60 items-center justify-center rounded-b-2xl bg-gradient-to-b from-amber-400 to-amber-600 shadow-2xl sm:w-72">
+            <span className="font-display text-lg font-bold text-amber-950 sm:text-xl">
+              Dear Reena 🎂
+            </span>
+          </div>
+        </div>
+
+        {/* Confetti after blow */}
+        <AnimatePresence>
+          {litCount === 0 && (
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <motion.span
+                  key={i}
+                  className="absolute text-lg"
+                  initial={{ x: 0, y: 0, opacity: 1, scale: 0 }}
+                  animate={{
+                    x: (Math.random() - 0.5) * 300,
+                    y: (Math.random() - 0.5) * 300,
+                    opacity: [1, 0],
+                    scale: [0, 1.5],
+                    rotate: Math.random() * 360,
+                  }}
+                  transition={{ duration: 1.5, delay: i * 0.04 }}
+                >
+                  {["🎉", "✨", "💖", "🎊", "⭐"][i % 5]}
+                </motion.span>
+              ))}
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {litCount > 0 && (
+        <motion.button
+          onClick={blowCandles}
+          disabled={blowing}
+          className="rounded-full px-10 py-3.5 font-display text-lg font-semibold text-black shadow-[0_0_40px_rgba(212,175,55,0.35)] transition-transform hover:scale-105 active:scale-[0.98] disabled:opacity-60"
+          style={{ background: "linear-gradient(135deg, #f5e6b8, #d4af37)" }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {blowing ? "Blowing... 🌬️" : "Blow the Candles 🌬️"}
+        </motion.button>
+      )}
+
+      {litCount === 0 && (
+        <motion.p
+          className="font-display text-2xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          Wish granted! ✨💖
+        </motion.p>
+      )}
     </motion.section>
   );
 }
@@ -1120,7 +1317,7 @@ function Final() {
   return (
     <motion.section
       key="final"
-      className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 text-center"
+      className="relative z-20 flex min-h-[100svh] flex-col items-center justify-center px-6 py-12 text-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.9 }}
@@ -1182,6 +1379,13 @@ function SerenadePage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [muted, setMuted] = useState(true);
 
+  const goToPhase = (next: Phase) => {
+    // #region agent log
+    fetch('http://127.0.0.1:7590/ingest/606baceb-1c0d-44c2-be05-501dfb56b034',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'7f8197'},body:JSON.stringify({sessionId:'7f8197',location:'index.tsx:SerenadePage.goToPhase',message:'phase transition',data:{from:phase,to:next},hypothesisId:'H1',timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+    setPhase(next);
+  };
+
   useEffect(() => {
     // gentle scroll lock per phase
     window.scrollTo({ top: 0 });
@@ -1212,11 +1416,12 @@ function SerenadePage() {
       </button>
 
       <AnimatePresence mode="wait">
-        {phase === "landing" && <Landing key="landing" onContinue={() => setPhase("auth")} />}
-        {phase === "auth" && <Auth key="auth" onSuccess={() => setPhase("intro")} />}
-        {phase === "intro" && <Intro key="intro" onYes={() => setPhase("garden")} />}
-        {phase === "garden" && <Garden key="garden" onDone={() => setPhase("cards")} />}
-        {phase === "cards" && <Cards key="cards" onDone={() => setPhase("final")} />}
+        {phase === "landing" && <Landing key="landing" onContinue={() => goToPhase("auth")} />}
+        {phase === "auth" && <Auth key="auth" onSuccess={() => goToPhase("intro")} />}
+        {phase === "intro" && <Intro key="intro" onYes={() => goToPhase("garden")} />}
+        {phase === "garden" && <Garden key="garden" onDone={() => goToPhase("cards")} />}
+        {phase === "cards" && <Cards key="cards" onDone={() => goToPhase("cake")} />}
+        {phase === "cake" && <BirthdayCake key="cake" onDone={() => goToPhase("final")} />}
         {phase === "final" && <Final key="final" />}
       </AnimatePresence>
     </main>
